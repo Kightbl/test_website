@@ -1,0 +1,5 @@
+import Link from "next/link";
+import { ArrowUpRight, Layers2 } from "lucide-react";
+import { getSongs } from "@/lib/data";
+import { slugify } from "@/lib/utils";
+export default async function TopicsPage() { const songs = (await getSongs()).filter(s=>s.published); const themes=[...new Set(songs.flatMap(s=>s.themes))].sort();return <div className="page-container py-14"><div className="label-kicker">RESEARCH INDEX</div><h1 className="text-4xl md:text-5xl font-black mt-2">Research topics</h1><p className="mt-3 text-[#69776b] leading-7 mb-9">Follow themes through different musical styles, artists, and generations.</p><div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">{themes.map(t=><Link key={t} href={`/topics/${slugify(t)}`} className="panel card-hover p-7"><Layers2 size={24} className="text-[#789a5e]"/><div className="flex justify-between items-center mt-6 gap-3"><h2 className="font-black text-xl">{t}</h2><ArrowUpRight size={20}/></div><p className="text-sm text-[#748075] mt-2">{songs.filter(s=>s.themes.includes(t)).length} song records</p></Link>)}</div></div>; }
